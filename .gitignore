@@ -1,3 +1,4 @@
 .DS_Store
 cifar/
 __pycache__/
+checkpoints/
