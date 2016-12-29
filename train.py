@@ -5,13 +5,13 @@ import os
 from time import time
 import tensorflow as tf
 
-batcher = DataBatcher("cifar_mini")
+batcher = DataBatcher("cifar")
 model = ModelStandard()
 # model_mm = ModelMinMax()
 saver = tf.train.Saver()
 
 epochs = 1000
-batch_size = 20
+batch_size = 50
 with tf.Session() as session:
     print("Beginning training...")
     session.run(tf.global_variables_initializer())
