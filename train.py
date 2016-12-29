@@ -11,7 +11,7 @@ model = ModelStandard()
 saver = tf.train.Saver()
 
 epochs = 1000
-batch_size = 20
+batch_size = 500
 with tf.Session() as session:
     print("Beginning training...")
     session.run(tf.global_variables_initializer())
