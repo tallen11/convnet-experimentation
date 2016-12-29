@@ -4,7 +4,7 @@ import tensorflow as tf
 class ModelMinMax(Model):
     def __init__(self):
         super(ModelMinMax, self).__init__("minmax")
-        with tf.device("/gpu:0"):
+        with tf.device("/cpu:0"):
             self.input = tf.placeholder(tf.float32, shape=[None,32,32,3])
             self.labels = tf.placeholder(tf.float32, shape=[None,10])
             self.dropout = tf.placeholder(tf.float32)
@@ -25,10 +25,10 @@ class ModelMinMax(Model):
             h_act2 = tf.nn.relu(h_concat2 + b_conv2)
             h_pool2 = tf.nn.max_pool(h_act2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
-            W_fc1 = self.__weights([8 * 8 * 64, 1024])
+            W_fc1 = self.__weights([32 * 8 * 64, 1024])
             b_fc1 = self.__biases([1024])
-            h_pool2_flat = tf.reshape(h_pool2, [-1, 8*8*64])
-            h_fc1 = tf.nn.tanh(tf.nn.xw_plus_b(h_pool2_flat, W_fc1, b_fc1))
+            h_pool2_flat = tf.reshape(h_pool2, [-1, 32*8*64])
+            h_fc1 = tf.nn.relu(tf.nn.xw_plus_b(h_pool2_flat, W_fc1, b_fc1))
 
             h_fc1_dropout = tf.nn.dropout(h_fc1, self.dropout)
 
