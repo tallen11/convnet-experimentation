@@ -23,8 +23,8 @@ with tf.Session() as session:
     while True:
         if batcher.epoch_finished():
             # print("Epoch finished...")
-            # images, labels = batcher.get_test_batch()
-            accuracy = 0.0 # model.get_accuracy(session, images, labels)
+            images, labels = batcher.get_test_batch()
+            accuracy = model.get_accuracy(session, images, labels)
             accuracy_data.append(accuracy)
             print("Epoch %i ~ %f ~ %f" % (epoch_index, accuracy, time() - epoch_start_time))
             saver.save(session, os.path.join("checkpoints", model.name + ".ckpt"))
