@@ -7,7 +7,7 @@ import tensorflow as tf
 
 batcher = DataBatcher("cifar")
 model = ModelStandard()
-# model_mm = ModelMinMax()
+# model = ModelMinMax()
 saver = tf.train.Saver()
 
 epochs = 1000

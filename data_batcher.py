@@ -63,24 +63,6 @@ class DataBatcher:
         images = np.split(images, 10000, axis=0)
         pairs = [(images[i], l[i]) for i in range(10000)]
         return pairs
-        # pairs = []
-        # for i in range(10000):
-        #     r_index = 0
-        #     g_index = 1024
-        #     b_index = 2048
-        #     pixel_arrays = []
-        #     for j in range(1024):
-        #         red = d[i][r_index] / 255
-        #         green = d[i][g_index] / 255
-        #         blue = d[i][b_index] / 255
-        #         pixel_arrays.append([red, green, blue])
-        #         r_index += 1
-        #         g_index += 1
-        #         b_index += 1
-        #     image_tensor = np.array(pixel_arrays, dtype=np.float32).reshape([32,32,3])
-        #     label = l[i]
-        #     pairs.append((image_tensor, label))
-        # return pairs
 
     def __unpickle(self, file):
         with open(file, "rb") as fo:
