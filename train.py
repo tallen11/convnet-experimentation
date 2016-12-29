@@ -1,6 +1,7 @@
 from model_standard import ModelStandard
 from model_minmax import ModelMinMax
 from data_batcher import DataBatcher
+from output_writer import OutputWriter
 import os
 from time import time
 import tensorflow as tf
@@ -10,7 +11,7 @@ model = ModelStandard()
 # model = ModelMinMax()
 saver = tf.train.Saver()
 
-epochs = 1000
+epochs = 50
 batch_size = 500
 with tf.Session() as session:
     print("Beginning training...")
@@ -38,5 +39,5 @@ with tf.Session() as session:
         # print("Step %i" % step_index)
         # step_index += 1
 print("Training complete")
-print(epochs)
-print(accuracy_data)
+output = OutputWriter()
+output.append_row("results/results.csv", model.name, accuracy_data)
