@@ -7,8 +7,8 @@ from time import time
 import tensorflow as tf
 
 batcher = DataBatcher("cifar")
-model = ModelStandard()
-# model = ModelMinMax()
+# model = ModelStandard()
+model = ModelMinMax()
 saver = tf.train.Saver()
 
 epochs = 50

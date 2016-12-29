@@ -9,28 +9,30 @@ class ModelMinMax(Model):
             self.labels = tf.placeholder(tf.float32, shape=[None,10])
             self.dropout = tf.placeholder(tf.float32)
 
-            W_conv1 = self.__weights([5,5,3,64])
-            b_conv1 = self.__biases([64*2])
+            W_conv1 = self.__weights([5,5,3,32])
+            b_conv1 = self.__biases([32])
             h_conv1 = tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME")
-            h_neg1 = -1 * tf.identity(h_conv1)
-            h_conv1 = tf.nn.relu(tf.concat(2, [h_conv1, h_neg1]) + b_conv1)
-            h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
+            h_neg1 = tf.identity(h_conv1) * -1.0
+            h_concat1 = tf.concat(1, [h_conv1, h_neg1])
+            h_act1 = tf.nn.relu(h_concat1 + b_conv1)
+            h_pool1 = tf.nn.max_pool(h_act1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
-            W_conv2 = self.__weights([5,5,64*2,128])
-            b_conv2 = self.__biases([128*2])
+            W_conv2 = self.__weights([5,5,32,64])
+            b_conv2 = self.__biases([64])
             h_conv2 = tf.nn.conv2d(h_pool1, W_conv2, strides=[1,1,1,1], padding="SAME")
-            h_neg2 = -1 * tf.identity(h_conv2)
-            h_conv2 = tf.nn.relu(tf.concat(2, [h_conv2, h_neg2]) + b_conv2)
-            h_pool2 = tf.nn.max_pool(h_conv2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
+            h_neg2 = tf.identity(h_conv2) * -1.0
+            h_concat2 = tf.concat(1, [h_conv2, h_neg2])
+            h_act2 = tf.nn.relu(h_concat2 + b_conv2)
+            h_pool2 = tf.nn.max_pool(h_act2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
-            W_fc1 = self.__weights([8 * 8 * 128, 2048])
-            b_fc1 = self.__biases([2048])
-            h_pool2_flat = tf.reshape(h_pool2, [-1, 8*8*128])
-            h_fc1 = tf.nn.relu(tf.nn.xw_plus_b(h_pool2_flat, W_fc1, b_fc1))
+            W_fc1 = self.__weights([8 * 8 * 64, 1024])
+            b_fc1 = self.__biases([1024])
+            h_pool2_flat = tf.reshape(h_pool2, [-1, 8*8*64])
+            h_fc1 = tf.nn.tanh(tf.nn.xw_plus_b(h_pool2_flat, W_fc1, b_fc1))
 
             h_fc1_dropout = tf.nn.dropout(h_fc1, self.dropout)
 
-            W_fc2 = self.__weights([2048, 10])
+            W_fc2 = self.__weights([1024, 10])
             b_fc2 = self.__biases([10])
 
             self.raw_scores = tf.nn.xw_plus_b(h_fc1_dropout, W_fc2, b_fc2)
