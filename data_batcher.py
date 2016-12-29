@@ -36,7 +36,7 @@ class DataBatcher:
 
     def get_batch(self, size):
         if size >= len(self.epoch_set):
-            size = len(self.epoch_set) - 1
+            size = len(self.epoch_set)
         batch = [self.epoch_set.pop(random.randrange(len(self.epoch_set))) for _ in range(size)]
         return self.__package_batch(batch, size)
 
