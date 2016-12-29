@@ -13,14 +13,14 @@ class ModelMinMax(Model):
             b_conv1 = self.__biases([64*2])
             h_conv1 = tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME")
             h_neg1 = -1 * tf.identity(h_conv1)
-            h_conv1 = tf.nn.relu(tf.concat(1, [h_conv1, h_neg1]) + b_conv1)
+            h_conv1 = tf.nn.relu(tf.concat(2, [h_conv1, h_neg1]) + b_conv1)
             h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
             W_conv2 = self.__weights([5,5,64*2,128])
             b_conv2 = self.__biases([128*2])
             h_conv2 = tf.nn.conv2d(h_pool1, W_conv2, strides=[1,1,1,1], padding="SAME")
             h_neg2 = -1 * tf.identity(h_conv2)
-            h_conv2 = tf.nn.relu(tf.concat(1, [h_conv2, h_neg2]) + b_conv2)
+            h_conv2 = tf.nn.relu(tf.concat(2, [h_conv2, h_neg2]) + b_conv2)
             h_pool2 = tf.nn.max_pool(h_conv2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
             W_fc1 = self.__weights([8 * 8 * 128, 2048])
