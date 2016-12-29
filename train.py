@@ -18,7 +18,7 @@ with tf.Session() as session:
     session.run(tf.global_variables_initializer())
     epoch_index = 0
     accuracy_data = []
-    step_index = 0
+    # step_index = 0
     epoch_start_time = time()
     while True:
         if batcher.epoch_finished():
@@ -36,8 +36,8 @@ with tf.Session() as session:
                 break
         images, labels = batcher.get_batch(batch_size)
         model.train_model(session, images, labels)
-        print("Step %i" % step_index)
-        step_index += 1
+        # print("Step %i" % step_index)
+        # step_index += 1
 print("Training complete")
 output = OutputWriter()
 output.append_row("results/results.csv", model.name, accuracy_data)
