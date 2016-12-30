@@ -7,7 +7,7 @@ from time import time
 import tensorflow as tf
 
 batcher = DataBatcher("cifar")
-model = ModelStandard()
+model = ModelStandard("relu")
 # model = ModelMinMax()
 saver = tf.train.Saver()
 
@@ -39,4 +39,4 @@ with tf.Session() as session:
         # step_index += 1
 print("Training complete")
 output = OutputWriter()
-output.append_row("results/results.csv", model.name, accuracy_data)
+output.append_row("results/results.csv", model.name + "-" + model.activation_func_name, accuracy_data)

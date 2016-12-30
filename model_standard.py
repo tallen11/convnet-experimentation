@@ -2,8 +2,8 @@ from model import Model
 import tensorflow as tf
 
 class ModelStandard(Model):
-    def __init__(self):
-        super(ModelStandard, self).__init__("standard")
+    def __init__(self, activation_func):
+        super(ModelStandard, self).__init__("standard", activation_func)
         with tf.device("/cpu:0"):
             self.input = tf.placeholder(tf.float32, shape=[None,32,32,3])
             self.labels = tf.placeholder(tf.float32, shape=[None,10])
@@ -11,27 +11,27 @@ class ModelStandard(Model):
 
             W_conv1 = self.__weights([5,5,3,32])
             b_conv1 = self.__biases([32])
-            h_conv1 = tf.nn.relu(tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME") + b_conv1)
+            h_conv1 = self.act_fn(tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME") + b_conv1)
             h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
             W_conv2 = self.__weights([5,5,32,32])
             b_conv2 = self.__biases([32])
-            h_conv2 = tf.nn.relu(tf.nn.conv2d(h_pool1, W_conv2, strides=[1,1,1,1], padding="SAME") + b_conv2)
+            h_conv2 = self.act_fn(tf.nn.conv2d(h_pool1, W_conv2, strides=[1,1,1,1], padding="SAME") + b_conv2)
             h_pool2 = tf.nn.max_pool(h_conv2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
             W_conv3 = self.__weights([5,5,32,64])
             b_conv3 = self.__biases([64])
-            h_conv3 = tf.nn.relu(tf.nn.conv2d(h_pool2, W_conv3, strides=[1,1,1,1], padding="SAME") + b_conv3)
+            h_conv3 = self.act_fn(tf.nn.conv2d(h_pool2, W_conv3, strides=[1,1,1,1], padding="SAME") + b_conv3)
             h_pool3 = tf.nn.max_pool(h_conv3, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
             W_fc1 = self.__weights([4*4*64, 1024])
             b_fc1 = self.__biases([1024])
             h_pool3_flat = tf.reshape(h_pool3, [-1, 4*4*64])
-            h_fc1 = tf.nn.relu(tf.nn.xw_plus_b(h_pool3_flat, W_fc1, b_fc1))
+            h_fc1 = self.act_fn(tf.nn.xw_plus_b(h_pool3_flat, W_fc1, b_fc1))
 
             W_fc2 = self.__weights([1024, 512])
             b_fc2 = self.__biases([512])
-            h_fc2 = tf.nn.relu(tf.nn.xw_plus_b(h_fc1, W_fc2, b_fc2))
+            h_fc2 = self.act_fn(tf.nn.xw_plus_b(h_fc1, W_fc2, b_fc2))
 
             h_fc2_dropout = tf.nn.dropout(h_fc2, self.dropout)
 
