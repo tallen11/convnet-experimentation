@@ -2,8 +2,8 @@ from model import Model
 import tensorflow as tf
 
 class ModelMinMax(Model):
-    def __init__(self):
-        super(ModelMinMax, self).__init__("minmax")
+    def __init__(self, activation_func):
+        super(ModelMinMax, self).__init__("minmax", activation_func)
         with tf.device("/gpu:0"):
             self.input = tf.placeholder(tf.float32, shape=[None,32,32,3])
             self.labels = tf.placeholder(tf.float32, shape=[None,10])
@@ -13,20 +13,20 @@ class ModelMinMax(Model):
             b_conv1 = self.__biases([64])
             h_conv1 = tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME")
             h_concat1 = tf.concat(3, [h_conv1, -h_conv1])
-            h_act1 = tf.nn.relu(h_concat1 + b_conv1)
+            h_act1 = self.act_fn(h_concat1 + b_conv1)
             h_pool1 = tf.nn.max_pool(h_act1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
             W_conv2 = self.__weights([5,5,64,64])
             b_conv2 = self.__biases([128])
             h_conv2 = tf.nn.conv2d(h_pool1, W_conv2, strides=[1,1,1,1], padding="SAME")
             h_concat2 = tf.concat(3, [h_conv2, -h_conv2])
-            h_act2 = tf.nn.relu(h_concat2 + b_conv2)
+            h_act2 = self.act_fn(h_concat2 + b_conv2)
             h_pool2 = tf.nn.max_pool(h_act2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
 
             W_fc1 = self.__weights([8 * 8 * 128, 1024])
             b_fc1 = self.__biases([1024])
             h_pool2_flat = tf.reshape(h_pool2, [-1, 8*8*128])
-            h_fc1 = tf.nn.relu(tf.nn.xw_plus_b(h_pool2_flat, W_fc1, b_fc1))
+            h_fc1 = self.act_fn(tf.nn.xw_plus_b(h_pool2_flat, W_fc1, b_fc1))
 
             h_fc1_dropout = tf.nn.dropout(h_fc1, self.dropout)
 
