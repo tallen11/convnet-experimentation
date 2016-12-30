@@ -4,7 +4,7 @@ import tensorflow as tf
 class ModelAllConv(Model):
     def __init__(self, activation_func):
         super(ModelAllConv, self).__init__("allconv", activation_func)
-        with tf.device("/cpu:0"):
+        with tf.device("/gpu:0"):
             self.input = tf.placeholder(tf.float32, shape=[None,32,32,3])
             self.labels = tf.placeholder(tf.float32, shape=[None,10])
             self.dropout = tf.placeholder(tf.float32)
