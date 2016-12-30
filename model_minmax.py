@@ -32,8 +32,8 @@ class ModelMinMax(Model):
 
             W_fc1 = self.__weights([4 * 4 * 128, 1024])
             b_fc1 = self.__biases([1024])
-            h_pool2_flat = tf.reshape(h_pool2, [-1, 4*4*128])
-            h_fc1 = self.act_fn(tf.nn.xw_plus_b(h_pool2_flat, W_fc1, b_fc1))
+            h_pool3_flat = tf.reshape(h_pool3, [-1, 4*4*128])
+            h_fc1 = self.act_fn(tf.nn.xw_plus_b(h_pool3_flat, W_fc1, b_fc1))
 
             W_fc2 = self.__weights([1024, 512])
             b_fc2 = self.__biases([512])
