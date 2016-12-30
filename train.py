@@ -9,10 +9,10 @@ from time import time
 import tensorflow as tf
 
 batcher = DataBatcher("cifar")
-# model = ModelStandard("relu")
+model = ModelStandard("relu")
 # model = ModelMinMax("relu")
 # model = ModelAllConv("relu")
-model = ModelAllConvMod("relu")
+# model = ModelAllConvMod("relu")
 saver = tf.train.Saver()
 
 epochs = 100
@@ -31,10 +31,15 @@ with tf.Session() as session:
             for i in range(len(image_batches)):
                 accuracy += model.get_accuracy(session, image_batches[i], label_batches[i])
             accuracy /= len(image_batches)
-            # images, labels = batcher.get_test_batch()
-            # accuracy = model.get_accuracy(session, images, labels)
-            # accuracy_data.append(accuracy)
-            print("Epoch %i ~ %f ~ %f" % (epoch_index, accuracy, time() - epoch_start_time))
+
+            train_accuracy = 0
+            image_batches, label_batches = batcher.get_test_training_batches(50)
+            for i in range(len(image_batches)):
+                train_accuracy += model.get_accuracy(session, image_batches[i], label_batches[i])
+            train_accuracy /= len(image_batches)
+
+            accuracy_data.append(accuracy)
+            print("Epoch %i | test acc: %f | train_acc: %f | time: %f" % (epoch_index, accuracy, train_accuracy, time() - epoch_start_time))
             saver.save(session, os.path.join("checkpoints", model.name + ".ckpt"))
             batcher.prepare_epoch()
             step_index = 0

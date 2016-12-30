@@ -54,6 +54,11 @@ class DataBatcher:
         # for sample in samples:
         #     batches.append(self.__package_batch(sample, len(sample)))
 
+    def get_test_training_batches(self, sizes):
+        full_images, full_labels = self.__package_batch(self.train_samples, len(self.train_samples))
+        image_batches = np.split(full_images, len(self.train_samples) // sizes, axis=0)
+        label_batches = np.split(full_labels, len(self.train_samples) // sizes, axis=0)
+        return image_batches, label_batches
 
     def __package_batch(self, batch, size):
         image_tensors = []
