@@ -12,24 +12,21 @@ class ModelAllConv(Model):
             W_conv1 = self.__weights([5,5,3,32])
             b_conv1 = self.__biases([32])
             h_conv1 = self.act_fn(tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME") + b_conv1)
-            # h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
-            W_conv_r1 = self.__weights([2,2,32,32])
+            W_conv_r1 = self.__weights([5,5,32,32])
             b_conv_r1 = self.__biases([32])
             h_conv_r1 = tf.nn.conv2d(h_conv1, W_conv_r1, strides=[1,2,2,1], padding="SAME") + b_conv_r1
 
             W_conv2 = self.__weights([5,5,32,32])
             b_conv2 = self.__biases([32])
             h_conv2 = self.act_fn(tf.nn.conv2d(h_conv_r1, W_conv2, strides=[1,1,1,1], padding="SAME") + b_conv2)
-            # h_pool2 = tf.nn.max_pool(h_conv2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
-            W_conv_r2 = self.__weights([2,2,32,32])
+            W_conv_r2 = self.__weights([5,5,32,32])
             b_conv_r2 = self.__biases([32])
             h_conv_r2 = tf.nn.conv2d(h_conv2, W_conv_r2, strides=[1,2,2,1], padding="SAME") + b_conv_r2
 
             W_conv3 = self.__weights([5,5,32,64])
             b_conv3 = self.__biases([64])
             h_conv3 = self.act_fn(tf.nn.conv2d(h_conv_r2, W_conv3, strides=[1,1,1,1], padding="SAME") + b_conv3)
-            # h_pool3 = tf.nn.max_pool(h_conv3, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
-            W_conv_r3 = self.__weights([2,2,64,64])
+            W_conv_r3 = self.__weights([5,5,64,64])
             b_conv_r3 = self.__biases([64])
             h_conv_r3 = tf.nn.conv2d(h_conv3, W_conv_r3, strides=[1,2,2,1], padding="SAME") + b_conv_r3
 

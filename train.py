@@ -30,11 +30,11 @@ with tf.Session() as session:
             print("Epoch %i ~ %f ~ %f" % (epoch_index, accuracy, time() - epoch_start_time))
             saver.save(session, os.path.join("checkpoints", model.name + ".ckpt"))
             batcher.prepare_epoch()
-            epoch_index += 1
             step_index = 0
             epoch_start_time = time()
             if epoch_index == epochs:
                 break
+            epoch_index += 1
         images, labels = batcher.get_batch(batch_size)
         model.train_model(session, images, labels)
         # print("Step %i" % step_index)
