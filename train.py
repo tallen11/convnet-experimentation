@@ -7,7 +7,7 @@ from time import time
 import tensorflow as tf
 
 batcher = DataBatcher("cifar")
-model = ModelStandard("elu")
+model = ModelStandard("relu")
 # model = ModelMinMax()
 saver = tf.train.Saver()
 
