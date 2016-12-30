@@ -41,7 +41,7 @@ class ModelAllConvMod(Model):
 
             W_fc1 = self.__weights([8*8*192, 1024])
             b_fc1 = self.__biases([1024])
-            h_conv_r3_flat = tf.reshape(h_conv_r3, [-1, 8*8*192])
+            h_conv_r3_flat = tf.reshape(h_downsample6, [-1, 8*8*192])
             h_fc1 = self.act_fn(tf.nn.xw_plus_b(h_conv_r3_flat, W_fc1, b_fc1))
 
             W_fc2 = self.__weights([1024, 512])
