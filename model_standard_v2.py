@@ -13,17 +13,17 @@ class ModelStandardV2(Model):
             b_conv1 = self.__biases([32])
             h_conv1 = self.act_fn(tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME") + b_conv1)
             h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
-            h_pool1_dropout = tf.nn.dropout(h_pool1, self.dropout)
+            # h_pool1_dropout = tf.nn.dropout(h_pool1, self.dropout)
 
             W_conv2 = self.__weights([5,5,32,32])
             b_conv2 = self.__biases([32])
-            h_conv2 = self.act_fn(tf.nn.conv2d(h_pool1_dropout, W_conv2, strides=[1,1,1,1], padding="SAME") + b_conv2)
+            h_conv2 = self.act_fn(tf.nn.conv2d(h_pool1, W_conv2, strides=[1,1,1,1], padding="SAME") + b_conv2)
             h_pool2 = tf.nn.max_pool(h_conv2, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
-            h_pool2_dropout = tf.nn.dropout(h_pool2, self.dropout)
+            # h_pool2_dropout = tf.nn.dropout(h_pool2, self.dropout)
 
             W_conv3 = self.__weights([5,5,32,64])
             b_conv3 = self.__biases([64])
-            h_conv3 = self.act_fn(tf.nn.conv2d(h_pool2_dropout, W_conv3, strides=[1,1,1,1], padding="SAME") + b_conv3)
+            h_conv3 = self.act_fn(tf.nn.conv2d(h_pool2, W_conv3, strides=[1,1,1,1], padding="SAME") + b_conv3)
             h_pool3 = tf.nn.max_pool(h_conv3, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
             h_pool3_dropout = tf.nn.dropout(h_pool3, self.dropout)
 
