@@ -50,7 +50,7 @@ class ModelStandardV2(Model):
             self.accuracy = tf.reduce_mean(tf.cast(tf.equal(self.prediction, tf.argmax(self.labels, 1)), tf.float32))
 
     def train_model(self, session, images, labels):
-        session.run(self.train, feed_dict={self.input: images, self.labels: labels, self.dropout: 0.5})
+        session.run(self.train, feed_dict={self.input: images, self.labels: labels, self.dropout: 0.75})
 
     def predict(self, session, images):
         return session.run(self.prediction, feed_dict={self.input: images, self.dropout: 1.0})
