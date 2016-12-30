@@ -1,5 +1,6 @@
 from model_standard import ModelStandard
 from model_minmax import ModelMinMax
+from model_allconv import ModelAllConv
 from data_batcher import DataBatcher
 from output_writer import OutputWriter
 import os
@@ -7,8 +8,9 @@ from time import time
 import tensorflow as tf
 
 batcher = DataBatcher("cifar")
-model = ModelStandard("relu")
-# model = ModelMinMax()
+# model = ModelStandard("relu")
+# model = ModelMinMax("relu")
+model = ModelAllConv("relu")
 saver = tf.train.Saver()
 
 epochs = 100
