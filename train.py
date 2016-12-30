@@ -62,6 +62,6 @@ saver = tf.train.Saver()
 epochs = 1000
 batch_size = 500
 
-train_model(model_std, batcher, saver, epochs, batch_size, True)
-batcher.prepare_epoch()
+# train_model(model_std, batcher, saver, epochs, batch_size, True)
+# batcher.prepare_epoch()
 train_model(model_mm, batcher, saver, epochs, batch_size, True)
