@@ -10,7 +10,7 @@ class ModelStandardV2(Model):
             self.dropout = tf.placeholder(tf.float32)
 
             W_conv1 = self.__weights([5,5,3,128])
-            b_conv1 = self.__biases([96])
+            b_conv1 = self.__biases([128])
             h_conv1 = self.act_fn(tf.nn.conv2d(self.input, W_conv1, strides=[1,1,1,1], padding="SAME") + b_conv1)
             h_pool1 = tf.nn.max_pool(h_conv1, ksize=[1,2,2,1], strides=[1,2,2,1], padding="SAME")
             # h_pool1_dropout = tf.nn.dropout(h_pool1, self.dropout)
