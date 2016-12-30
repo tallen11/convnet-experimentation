@@ -43,6 +43,18 @@ class DataBatcher:
     def get_test_batch(self):
         return self.__package_batch(self.test_samples, len(self.test_samples))
 
+    def get_test_batches(self, sizes):
+        full_images, full_labels = self.__package_batch(self.test_samples, len(self.test_samples))
+        image_batches = np.split(full_images, len(self.test_samples) // sizes, axis=0)
+        label_batches = np.split(full_labels, len(self.test_samples) // sizes, axis=0)
+        return image_batches, label_batches
+        # samples = [self.test_samples[i:i+sizes] for i in range(0, len(self.test_samples), sizes)]
+        # image_batches = []
+        # label_batches
+        # for sample in samples:
+        #     batches.append(self.__package_batch(sample, len(sample)))
+
+
     def __package_batch(self, batch, size):
         image_tensors = []
         label_tensors = []
