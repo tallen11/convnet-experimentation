@@ -7,8 +7,8 @@ from time import time
 import tensorflow as tf
 
 batcher = DataBatcher("cifar")
-# model = ModelStandard()
-model = ModelMinMax()
+model = ModelStandard()
+# model = ModelMinMax()
 saver = tf.train.Saver()
 
 epochs = 50
@@ -22,7 +22,6 @@ with tf.Session() as session:
     epoch_start_time = time()
     while True:
         if batcher.epoch_finished():
-            # print("Epoch finished...")
             images, labels = batcher.get_test_batch()
             accuracy = model.get_accuracy(session, images, labels)
             accuracy_data.append(accuracy)
