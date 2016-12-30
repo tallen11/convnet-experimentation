@@ -3,3 +3,4 @@ cifar/
 __pycache__/
 checkpoints/
 cifar_mini/
+results/
