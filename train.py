@@ -10,7 +10,7 @@ import tensorflow as tf
 
 def train_model(model, batcher, saver, epochs, batch_size, output_results):
     with tf.Session() as session:
-        print("Beginning training (%s)..." % model.name + " - " + model.activation_func_name)
+        print("Beginning training (%s)..." % (model.name + " - " + model.activation_func_name))
         session.run(tf.global_variables_initializer())
         epoch_index = 0
         accuracy_data = []
@@ -49,7 +49,8 @@ def train_model(model, batcher, saver, epochs, batch_size, output_results):
     print("Training complete")
     if output_results:
         output = OutputWriter()
-        output.append_row("results/results.csv", model.name + "-" + model.activation_func_name, accuracy_data)
+        output.append_row("results/results.csv", model.name + "-" + model.activation_func_name + "-TEST", accuracy_data)
+        output.append_row("results/results.csv", model.name + "-" + model.activation_func_name + "-TRAIN", train_accuracy_data)
 
 batcher = DataBatcher("cifar")
 model_std = ModelStandard("relu")
@@ -58,8 +59,8 @@ model_mm = ModelMinMax("relu")
 # model = ModelAllConvMod("relu")
 saver = tf.train.Saver()
 
-epochs = 2
-batch_size = 500
+epochs = 1000
+batch_size = 100
 
 train_model(model_std, batcher, saver, epochs, batch_size, True)
 batcher.prepare_epoch()
