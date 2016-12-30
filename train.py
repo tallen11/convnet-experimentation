@@ -7,11 +7,11 @@ from time import time
 import tensorflow as tf
 
 batcher = DataBatcher("cifar")
-model = ModelStandard("relu")
+model = ModelStandard("elu")
 # model = ModelMinMax()
 saver = tf.train.Saver()
 
-epochs = 50
+epochs = 100
 batch_size = 500
 with tf.Session() as session:
     print("Beginning training...")
