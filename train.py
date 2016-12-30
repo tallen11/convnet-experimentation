@@ -1,4 +1,5 @@
 from model_standard import ModelStandard
+from model_standard_v2 import ModelStandardV2
 from model_minmax import ModelMinMax
 from model_allconv import ModelAllConv
 from model_allconv_mod import ModelAllConvMod
@@ -53,8 +54,9 @@ def train_model(model, batcher, saver, epochs, batch_size, output_results):
         output.append_row("results/results.csv", model.name + "-" + model.activation_func_name + "-TRAIN", train_accuracy_data)
 
 batcher = DataBatcher("cifar")
-model_std = ModelStandard("elu")
-model_mm = ModelMinMax("elu")
+# model_std = ModelStandard("elu")
+model_std_v2 = ModelStandardV2("elu")
+# model_mm = ModelMinMax("elu")
 # model = ModelAllConv("relu")
 # model = ModelAllConvMod("relu")
 saver = tf.train.Saver()
@@ -62,6 +64,6 @@ saver = tf.train.Saver()
 epochs = 1000
 batch_size = 500
 
-train_model(model_std, batcher, saver, epochs, batch_size, True)
-batcher.prepare_epoch()
-train_model(model_mm, batcher, saver, epochs, batch_size, True)
+train_model(model_std_v2, batcher, saver, epochs, batch_size, True)
+# batcher.prepare_epoch()
+# train_model(model_mm, batcher, saver, epochs, batch_size, True)
