@@ -39,7 +39,7 @@ with tf.Session() as session:
             train_accuracy /= len(image_batches)
 
             accuracy_data.append(accuracy)
-            print("Epoch %i | test acc: %f | train_acc: %f | time: %f" % (epoch_index, accuracy, train_accuracy, time() - epoch_start_time))
+            print("Epoch %i \t| test_acc: %f | train_acc: %f | time: %f" % (epoch_index, accuracy, train_accuracy, time() - epoch_start_time))
             saver.save(session, os.path.join("checkpoints", model.name + ".ckpt"))
             batcher.prepare_epoch()
             step_index = 0
